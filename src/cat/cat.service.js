@@ -17,14 +17,14 @@ export class CatService {
   }
 
   findOne(catId) {
-    const cat = this.cats.find(el => el.id === catId);
+    const cat = this.cats.find(cat => cat.id === catId);
     if (!cat) throw new NotFoundException(`Cat ID #${catId} is Not Found`);
     
     return cat;
   }
   
   update(catId, body) {
-    const cat = this.cats.find(el => el.id === catId);
+    const cat = this.cats.find(cat => cat.id === catId);
     if (!cat) throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: `Cat ID #${catId} Not Found`, error: 'Bad Request' }, HttpStatus.BAD_REQUEST)
 
     let updatedCat;
