@@ -4,6 +4,7 @@ import { KittenController } from './kitten.controller';
 
 @Module({
   providers: [KittenService],
-  controllers: [KittenController]
+  controllers: [KittenController],
+  exports: [KittenService]
 })
 export class KittenModule {}
