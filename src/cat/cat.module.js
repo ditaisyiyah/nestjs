@@ -1,10 +1,12 @@
 import { Module, Dependencies } from '@nestjs/common';
+import { KittenService } from '../kitten/kitten.service';
 import { CatController } from './cat.controller';
 import { CatService } from './cat.service';
+import { KittenCatController } from './kitten.controller';
 
 @Module({
-  controllers: [CatController],
-  providers: [CatService]
+  controllers: [CatController, KittenCatController],
+  providers: [CatService, KittenService]
 })
 
 @Dependencies(CatService)
