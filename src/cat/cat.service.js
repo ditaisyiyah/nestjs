@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { cats } from '../db';
 
 @Injectable()
@@ -17,10 +17,16 @@ export class CatService {
   }
 
   findOne(catId) {
-    return this.cats.find(el => el.id === catId);
+    const cat = this.cats.find(el => el.id === catId);
+    if (!cat) throw new NotFoundException(`Cat ID #${catId} is Not Found`);
+    
+    return cat;
   }
   
   update(catId, body) {
+    const cat = this.cats.find(el => el.id === catId);
+    if (!cat) throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: `Cat ID #${catId} Not Found`, error: 'Bad Request' }, HttpStatus.BAD_REQUEST)
+
     let updatedCat;
     this.cats = this.cats.map(cat => {
       if(cat.id === catId) {
@@ -29,6 +35,7 @@ export class CatService {
       }
       return cat;
     })
+
     return updatedCat;
   }
 

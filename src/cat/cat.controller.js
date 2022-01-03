@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Dependencies, Bind, Res, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Dependencies, Bind, Res, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { CatService } from './cat.service';
 
 @Controller('cats')
@@ -25,18 +25,18 @@ export class CatController {
   }
   
   @Get('/:catId')
-  @Bind(Res(), Param('catId'))
+  @Bind(Res(), Param('catId', ParseIntPipe))
   async findOne(res, catId) {
-    const cat = await this.catService.findOne(+catId)
+    const cat = await this.catService.findOne(catId)
     res.json(cat);
   }
   
   @Put('/:catId')
-  @Bind(Res(), Param('catId'), Body())
+  @Bind(Res(), Param('catId', ParseIntPipe), Body())
   async update(res, catId, body) {
     const { name, age } = body;
     const cat = { name, age };
-    const updatedCat = await this.catService.update(+catId, cat);
+    const updatedCat = await this.catService.update(catId, cat);
     res.json(updatedCat);
   }
 
